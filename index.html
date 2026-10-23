@@ -1,0 +1,1072 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rerose — Next-Gen Software Engineering & API Architecture</title>
+    
+    <!-- Google Fonts: Plus Jakarta Sans & JetBrains Mono -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="shortcut icon" href="favicon.jfif" type="image/x-icon">
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Lucide Icons CDN -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            DEFAULT: '#fa5d19',
+                            hover: '#ff7a3d',
+                            active: '#ff6b2b',
+                            light: '#fff5f0',
+                        },
+                        charcoal: {
+                            DEFAULT: '#262626',
+                            muted: '#3b3b3b',
+                            dark: '#171717',
+                        },
+                        surface: {
+                            DEFAULT: '#ffffff',
+                            neutral: '#f9f9f9',
+                            border: '#e5e7eb',
+                            muted: '#6b7280',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
+                        mono: ['"JetBrains Mono"', 'monospace'],
+                    },
+                    boxShadow: {
+                        'glow': '0 0 25px -5px rgba(250, 93, 25, 0.25)',
+                        'card': '0 2px 8px -2px rgba(0, 0, 0, 0.05), 0 1px 3px 0 rgba(0, 0, 0, 0.03)',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            color: #262626;
+            background-color: #ffffff;
+            -webkit-font-smoothing: antialiased;
+        }
+        
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f9f9f9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #d1d5db;
+            border-radius: 9999px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #fa5d19;
+        }
+
+        /* Glassmorphism elements */
+        .glass-header {
+            background: rgba(255, 255, 255, 0.88);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+
+        .code-syntax-keyword { color: #fa5d19; font-weight: 600; }
+        .code-syntax-string { color: #10b981; }
+        .code-syntax-func { color: #3b82f6; }
+        .code-syntax-comment { color: #9ca3af; font-style: italic; }
+        .code-syntax-number { color: #8b5cf6; }
+    </style>
+</head>
+<body class="bg-white text-charcoal antialiased selection:bg-primary selection:text-white">
+
+    <!-- ==================== ANNOUNCEMENT BAR ==================== -->
+    <div class="bg-charcoal text-white text-xs md:text-sm py-2.5 px-4 text-center font-medium border-b border-neutral-800">
+        <div class="max-w-7xl mx-auto flex items-center justify-center gap-2 flex-wrap">
+            <span class="bg-primary/20 text-primary text-[11px] uppercase tracking-wider font-bold px-2 py-0.5 rounded-full border border-primary/30">New</span>
+            <span>Rerose Architecture 2.0 is live — High-speed API & Full-Stack Engineering</span>
+            <a href="#quote-calculator" class="text-primary hover:text-primary-hover underline underline-offset-4 inline-flex items-center gap-1 transition-colors font-semibold ml-1">
+                Estimate Project Cost <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+            </a>
+        </div>
+    </div>
+
+    <!-- ==================== STICKY HEADER ==================== -->
+    <header class="sticky top-0 z-50 glass-header border-b border-surface-border transition-all duration-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
+            
+            <!-- BRAND LOGO (3-ROW SVG MARK) -->
+            <a href="#" class="flex items-center gap-3 group focus:outline-none">
+                <div class="w-9 h-9 bg-charcoal rounded-xl p-1.5 flex flex-col justify-center gap-1 group-hover:border group-hover:border-primary/50 transition-all shadow-sm">
+                    <!-- 3-ROW SLEEK ACCENT LOGO BARS -->
+                    <span class="h-1 w-full bg-primary rounded-full transition-all group-hover:w-3/4"></span>
+                    <span class="h-1 w-3/4 bg-white rounded-full transition-all group-hover:w-full"></span>
+                    <span class="h-1 w-1/2 bg-primary rounded-full transition-all group-hover:w-full"></span>
+                </div>
+                <div class="flex flex-col">
+                    <span class="font-extrabold text-xl tracking-tight text-charcoal group-hover:text-primary transition-colors leading-none">Rerose</span>
+                    <span class="text-[10px] text-surface-muted tracking-widest font-mono uppercase leading-tight">Engineering</span>
+                </div>
+            </a>
+
+            <!-- NAV LINKS -->
+            <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-charcoal-muted">
+                <a href="#services" class="hover:text-primary transition-colors">Services</a>
+                <a href="#demo" class="hover:text-primary transition-colors">Architecture</a>
+                <a href="#process" class="hover:text-primary transition-colors">Process</a>
+                <a href="#work" class="hover:text-primary transition-colors">Portfolio</a>
+                <a href="#pricing" class="hover:text-primary transition-colors">Pricing</a>
+                <a href="#faq" class="hover:text-primary transition-colors">FAQ</a>
+            </nav>
+
+            <!-- RIGHT CTA BUTTONS -->
+            <div class="flex items-center gap-3">
+                <a href="tel:03195812209" class="hidden sm:inline-flex items-center gap-2 text-xs font-mono text-surface-muted hover:text-charcoal px-3 py-1.5 rounded-lg border border-surface-border hover:border-gray-400 transition-colors">
+                    <i data-lucide="phone" class="w-3.5 h-3.5 text-primary"></i> 03195812209
+                </a>
+                <button onclick="openContactModal('General Inquiry')" class="bg-primary hover:bg-primary-hover text-white font-medium text-sm px-4 py-2 rounded-xl transition-all shadow-sm hover:shadow-glow inline-flex items-center gap-2">
+                    <span>Book Strategy Call</span>
+                    <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- ==================== HERO SECTION ==================== -->
+        <section class="relative pt-12 pb-20 md:pt-20 md:pb-32 overflow-hidden bg-gradient-to-b from-surface-neutral/60 to-white border-b border-surface-border">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                
+                <!-- TOP BADGE -->
+                <div class="flex justify-center mb-6">
+                    <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white border border-surface-border shadow-sm text-xs font-semibold text-charcoal">
+                        <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                        <span class="text-surface-muted">Founded by Abdur Rehman</span>
+                        <span class="text-gray-300">|</span>
+                        <span class="text-primary font-bold">Available for Q2 Projects</span>
+                    </div>
+                </div>
+
+                <!-- MAIN HEADLINE -->
+                <div class="text-center max-w-4xl mx-auto space-y-6">
+                    <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-charcoal tracking-tight leading-[1.12]">
+                        Engineering High-Performance Web Applications & Scalable APIs
+                    </h1>
+                    <p class="text-lg sm:text-xl text-surface-muted font-normal max-w-2xl mx-auto leading-relaxed">
+                        We build robust frontend interfaces, resilient backend microservices, and enterprise API integrations designed to handle intense load with zero technical debt.
+                    </p>
+                    
+                    <!-- HERO CTA BUTTONS -->
+                    <div class="pt-4 flex flex-col sm:flex-row items-center justify-center gap-4">
+                        <button onclick="openContactModal('Hero Strategy Session')" class="w-full sm:w-auto bg-primary hover:bg-primary-hover text-white text-base font-semibold px-7 py-3.5 rounded-2xl shadow-md hover:shadow-glow transition-all flex items-center justify-center gap-2">
+                            <span>Book a Strategy Call</span>
+                            <i data-lucide="calendar" class="w-5 h-5"></i>
+                        </button>
+                        <a href="#services" class="w-full sm:w-auto bg-white hover:bg-surface-neutral text-charcoal border border-surface-border text-base font-semibold px-7 py-3.5 rounded-2xl transition-all shadow-sm flex items-center justify-center gap-2">
+                            <span>Explore Our Services</span>
+                            <i data-lucide="chevron-down" class="w-4 h-4"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- ENTERPRISE METRICS STRIP (NO AI BULLETS) -->
+                <div class="mt-16 pt-10 border-t border-surface-border/80 grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+                    <div class="p-4 rounded-xl bg-white border border-surface-border shadow-card">
+                        <div class="text-2xl sm:text-3xl font-extrabold text-charcoal font-mono">3+ Years</div>
+                        <div class="text-xs sm:text-sm text-surface-muted mt-1 font-medium">Enterprise & Internship Depth</div>
+                    </div>
+                    <div class="p-4 rounded-xl bg-white border border-surface-border shadow-card">
+                        <div class="text-2xl sm:text-3xl font-extrabold text-primary font-mono">99.9%</div>
+                        <div class="text-xs sm:text-sm text-surface-muted mt-1 font-medium">Uptime Standard Target</div>
+                    </div>
+                    <div class="p-4 rounded-xl bg-white border border-surface-border shadow-card">
+                        <div class="text-2xl sm:text-3xl font-extrabold text-charcoal font-mono">100%</div>
+                        <div class="text-xs sm:text-sm text-surface-muted mt-1 font-medium">Type-Safe Architecture</div>
+                    </div>
+                    <div class="p-4 rounded-xl bg-white border border-surface-border shadow-card">
+                        <div class="text-2xl sm:text-3xl font-extrabold text-emerald-600 font-mono">&lt; 24 Hours</div>
+                        <div class="text-xs sm:text-sm text-surface-muted mt-1 font-medium">Direct Founder SLA</div>
+                    </div>
+                </div>
+
+                <!-- ==================== INTERACTIVE ARCHITECTURE DEMO / CODE PREVIEW ==================== -->
+                <div id="demo" class="mt-16 max-w-5xl mx-auto bg-charcoal rounded-2xl shadow-2xl overflow-hidden border border-neutral-800">
+                    
+                    <!-- TOP PREVIEW HEADER & TABS -->
+                    <div class="bg-charcoal-dark px-4 py-3 border-b border-neutral-800 flex flex-wrap items-center justify-between gap-3">
+                        <div class="flex items-center gap-2">
+                            <span class="w-3 h-3 rounded-full bg-red-500 inline-block"></span>
+                            <span class="w-3 h-3 rounded-full bg-yellow-500 inline-block"></span>
+                            <span class="w-3 h-3 rounded-full bg-green-500 inline-block"></span>
+                            <span class="ml-2 text-xs font-mono text-gray-400 hidden sm:inline">api.rerose.dev/v1/architecture</span>
+                        </div>
+                        
+                        <!-- TAB BUTTONS -->
+                        <div class="flex items-center bg-charcoal rounded-lg p-1 border border-neutral-800 text-xs font-mono">
+                            <button onclick="switchTab('frontend')" id="tab-frontend" class="tab-btn px-3 py-1.5 rounded-md text-white bg-primary font-semibold transition-all">Frontend.tsx</button>
+                            <button onclick="switchTab('backend')" id="tab-backend" class="tab-btn px-3 py-1.5 rounded-md text-gray-400 hover:text-white transition-all">Backend.ts</button>
+                            <button onclick="switchTab('api')" id="tab-api" class="tab-btn px-3 py-1.5 rounded-md text-gray-400 hover:text-white transition-all">API_Gateway.json</button>
+                            <button onclick="switchTab('ai')" id="tab-ai" class="tab-btn px-3 py-1.5 rounded-md text-gray-400 hover:text-white transition-all">AI_Agent.py</button>
+                        </div>
+                    </div>
+
+                    <!-- CODE / ARCHITECTURE CONTENT AREA -->
+                    <div class="p-6 font-mono text-xs sm:text-sm leading-relaxed overflow-x-auto text-gray-200">
+                        
+                        <!-- TAB 1: FRONTEND -->
+                        <div id="code-frontend" class="code-block space-y-2">
+                            <div><span class="code-syntax-keyword">import</span> React, { useState, useEffect } <span class="code-syntax-keyword">from</span> <span class="code-syntax-string">'react'</span>;</div>
+                            <div><span class="code-syntax-keyword">import</span> { ReroseEngine } <span class="code-syntax-keyword">from</span> <span class="code-syntax-string">'@rerose/sdk'</span>;</div>
+                            <br>
+                            <div><span class="code-syntax-comment">// Next.js High-Performance Reactive Dashboard Component</span></div>
+                            <div><span class="code-syntax-keyword">export default function</span> <span class="code-syntax-func">ClientPortal</span>() {</div>
+                            <div class="pl-4"><span class="code-syntax-keyword">const</span> [data, setData] = <span class="code-syntax-func">useState</span>(<span class="code-syntax-keyword">null</span>);</div>
+                            <div class="pl-4"><span class="code-syntax-keyword">const</span> engine = <span class="code-syntax-keyword">new</span> <span class="code-syntax-func">ReroseEngine</span>({ apiKey: process.env.REROSE_KEY });</div>
+                            <br>
+                            <div class="pl-4"><span class="code-syntax-func">useEffect</span>(() =&gt; {</div>
+                            <div class="pl-8">engine.<span class="code-syntax-func">streamRealtimeMetrics</span>((payload) =&gt; {</div>
+                            <div class="pl-12"><span class="code-syntax-func">setData</span>(payload);</div>
+                            <div class="pl-8">});</div>
+                            <div class="pl-4">}, []);</div>
+                            <br>
+                            <div class="pl-4"><span class="code-syntax-keyword">return</span> (</div>
+                            <div class="pl-8">&lt;<span class="code-syntax-keyword">div</span> className=<span class="code-syntax-string">"p-8 rounded-2xl bg-white shadow-xl border border-gray-100"</span>&gt;</div>
+                            <div class="pl-12">&lt;<span class="code-syntax-keyword">h2</span> className=<span class="code-syntax-string">"text-2xl font-bold"</span>&gt;Enterprise Real-time Stream&lt;/<span class="code-syntax-keyword">h2</span>&gt;</div>
+                            <div class="pl-12">&lt;<span class="code-syntax-keyword">p</span>&gt;Latency: {data ? <span class="code-syntax-string">`${data.latency}ms`</span> : <span class="code-syntax-string">'Connecting...'</span>}&lt;/<span class="code-syntax-keyword">p</span>&gt;</div>
+                            <div class="pl-8">&lt;/<span class="code-syntax-keyword">div</span>&gt;</div>
+                            <div class="pl-4">);</div>
+                            <div>}</div>
+                        </div>
+
+                        <!-- TAB 2: BACKEND -->
+                        <div id="code-backend" class="code-block hidden space-y-2">
+                            <div><span class="code-syntax-keyword">import</span> express, { Request, Response } <span class="code-syntax-keyword">from</span> <span class="code-syntax-string">'express'</span>;</div>
+                            <div><span class="code-syntax-keyword">import</span> { PrismaClient } <span class="code-syntax-keyword">from</span> <span class="code-syntax-string">'@prisma/client'</span>;</div>
+                            <br>
+                            <div><span class="code-syntax-keyword">const</span> app = <span class="code-syntax-func">express</span>();</div>
+                            <div><span class="code-syntax-keyword">const</span> db = <span class="code-syntax-keyword">new</span> <span class="code-syntax-func">PrismaClient</span>();</div>
+                            <br>
+                            <div><span class="code-syntax-comment">// Scalable API Microservice with Rate Limiting and Resilience</span></div>
+                            <div>app.<span class="code-syntax-func">post</span>(<span class="code-syntax-string">'/api/v1/transaction'</span>, <span class="code-syntax-keyword">async</span> (req: Request, res: Response) =&gt; {</div>
+                            <div class="pl-4"><span class="code-syntax-keyword">try</span> {</div>
+                            <div class="pl-8"><span class="code-syntax-keyword">const</span> { userId, amount, currency } = req.body;</div>
+                            <div class="pl-8"><span class="code-syntax-keyword">const</span> result = <span class="code-syntax-keyword">await</span> db.transaction.<span class="code-syntax-func">create</span>({</div>
+                            <div class="pl-12">data: { userId, amount, currency, status: <span class="code-syntax-string">'CONFIRMED'</span> }</div>
+                            <div class="pl-8">});</div>
+                            <div class="pl-8"><span class="code-syntax-keyword">return</span> res.<span class="code-syntax-func">status</span>(<span class="code-syntax-number">200</span>).<span class="code-syntax-func">json</span>({ success: <span class="code-syntax-keyword">true</span>, data: result });</div>
+                            <div class="pl-4">} <span class="code-syntax-keyword">catch</span> (error) {</div>
+                            <div class="pl-8"><span class="code-syntax-keyword">return</span> res.<span class="code-syntax-func">status</span>(<span class="code-syntax-number">500</span>).<span class="code-syntax-func">json</span>({ error: <span class="code-syntax-string">'Database transaction failed'</span> });</div>
+                            <div class="pl-4">}</div>
+                            <div>});</div>
+                        </div>
+
+                        <!-- TAB 3: API GATEWAY -->
+                        <div id="code-api" class="code-block hidden space-y-2">
+                            <div>{</div>
+                            <div class="pl-4"><span class="code-syntax-keyword">"gateway"</span>: <span class="code-syntax-string">"Rerose Enterprise API v2"</span>,</div>
+                            <div class="pl-4"><span class="code-syntax-keyword">"status"</span>: <span class="code-syntax-string">"HEALTHY"</span>,</div>
+                            <div class="pl-4"><span class="code-syntax-keyword">"metrics"</span>: {</div>
+                            <div class="pl-8"><span class="code-syntax-keyword">"throughput"</span>: <span class="code-syntax-string">"12,400 req/sec"</span>,</div>
+                            <div class="pl-8"><span class="code-syntax-keyword">"average_response_time"</span>: <span class="code-syntax-string">"18ms"</span>,</div>
+                            <div class="pl-8"><span class="code-syntax-keyword">"uptime_sla"</span>: <span class="code-syntax-string">"99.99%"</span></div>
+                            <div class="pl-4">},</div>
+                            <div class="pl-4"><span class="code-syntax-keyword">"endpoints"</span>: [</div>
+                            <div class="pl-8">{ <span class="code-syntax-keyword">"path"</span>: <span class="code-syntax-string">"/v1/auth"</span>, <span class="code-syntax-keyword">"method"</span>: <span class="code-syntax-string">"POST"</span>, <span class="code-syntax-keyword">"rate_limit"</span>: <span class="code-syntax-string">"1000/min"</span> },</div>
+                            <div class="pl-8">{ <span class="code-syntax-keyword">"path"</span>: <span class="code-syntax-string">"/v1/payments/stripe"</span>, <span class="code-syntax-keyword">"method"</span>: <span class="code-syntax-string">"POST"</span>, <span class="code-syntax-keyword">"webhook"</span>: <span class="code-syntax-keyword">true</span> },</div>
+                            <div class="pl-8">{ <span class="code-syntax-keyword">"path"</span>: <span class="code-syntax-string">"/v1/data/sync"</span>, <span class="code-syntax-keyword">"method"</span>: <span class="code-syntax-string">"PUT"</span>, <span class="code-syntax-keyword">"encrypted"</span>: <span class="code-syntax-keyword">true</span> }</div>
+                            <div class="pl-4">]</div>
+                            <div>}</div>
+                        </div>
+
+                        <!-- TAB 4: AI AGENT -->
+                        <div id="code-ai" class="code-block hidden space-y-2">
+                            <div><span class="code-syntax-keyword">from</span> rerose.ai <span class="code-syntax-keyword">import</span> AutonomousAgent, VectorStore</div>
+                            <br>
+                            <div><span class="code-syntax-comment"># Autonomous Web Scraping & AI Data Processing Workflow</span></div>
+                            <div>agent = AutonomousAgent(model=<span class="code-syntax-string">"gpt-4o-mini"</span>, max_retry=<span class="code-syntax-number">3</span>)</div>
+                            <div>vector_db = VectorStore.connect(uri=process.env.PINECONE_URL)</div>
+                            <br>
+                            <div><span class="code-syntax-keyword">async def</span> <span class="code-syntax-func">process_document</span>(url: str):</div>
+                            <div class="pl-4">raw_html = <span class="code-syntax-keyword">await</span> agent.fetch_and_parse(url)</div>
+                            <div class="pl-4">structured_json = agent.extract_schema(raw_html, target_schema=<span class="code-syntax-string">"ProductListing"</span>)</div>
+                            <div class="pl-4"><span class="code-syntax-keyword">await</span> vector_db.upsert(structured_json)</div>
+                            <div class="pl-4"><span class="code-syntax-keyword">return</span> {<span class="code-syntax-string">"status"</span>: <span class="code-syntax-string">"COMPLETED"</span>, <span class="code-syntax-string font-weight-bold">"embeddings"</span>: len(structured_json)}</div>
+                        </div>
+
+                    </div>
+                    
+                    <!-- BOTTOM CODE BAR -->
+                    <div class="bg-charcoal-dark px-6 py-2.5 border-t border-neutral-800 flex justify-between items-center text-xs text-gray-400 font-mono">
+                        <span class="flex items-center gap-2">
+                            <span class="w-2 h-2 rounded-full bg-emerald-500"></span> Validated TypeScript & Python Pipeline
+                        </span>
+                        <span>Built with Clean Architecture</span>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ==================== SERVICES MATRIX ==================== -->
+        <section id="services" class="py-20 bg-white border-b border-surface-border">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                
+                <div class="text-center max-w-3xl mx-auto mb-16 space-y-4">
+                    <span class="text-xs font-mono font-bold uppercase tracking-widest text-primary bg-primary-light px-3 py-1 rounded-full">Core Capabilities</span>
+                    <h2 class="text-3xl sm:text-4xl font-extrabold text-charcoal tracking-tight">
+                        End-to-End Software Engineering Services
+                    </h2>
+                    <p class="text-surface-muted text-base sm:text-lg">
+                        From client-facing React interfaces to robust distributed Node.js/Python backends, we deliver complete software systems tailored to your business goals.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    
+                    <!-- SERVICE 1 -->
+                    <div class="p-6 rounded-2xl bg-surface-neutral border border-surface-border hover:border-primary/40 transition-all hover:shadow-card group">
+                        <div class="w-12 h-12 rounded-xl bg-white border border-surface-border flex items-center justify-center text-primary mb-6 group-hover:scale-110 transition-transform shadow-sm">
+                            <i data-lucide="layout" class="w-6 h-6"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-charcoal mb-2">Frontend Engineering</h3>
+                        <p class="text-sm text-surface-muted leading-relaxed mb-4">
+                            High-speed, responsive web applications built with Next.js, React, TypeScript, and Tailwind CSS. Pixel-perfect and optimized for Google Core Web Vitals.
+                        </p>
+                        <ul class="text-xs font-mono space-y-2 text-charcoal-muted border-t border-surface-border pt-4">
+                            <li class="flex items-center gap-2"><i data-lucide="check" class="w-3.5 h-3.5 text-primary"></i> Next.js 14 / SSR & SSG</li>
+                            <li class="flex items-center gap-2"><i data-lucide="check" class="w-3.5 h-3.5 text-primary"></i> Tailwind CSS Design Systems</li>
+                            <li class="flex items-center gap-2"><i data-lucide="check" class="w-3.5 h-3.5 text-primary"></i> Micro-Interactions & Motion</li>
+                        </ul>
+                    </div>
+
+                    <!-- SERVICE 2 -->
+                    <div class="p-6 rounded-2xl bg-surface-neutral border border-surface-border hover:border-primary/40 transition-all hover:shadow-card group">
+                        <div class="w-12 h-12 rounded-xl bg-white border border-surface-border flex items-center justify-center text-primary mb-6 group-hover:scale-110 transition-transform shadow-sm">
+                            <i data-lucide="server" class="w-6 h-6"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-charcoal mb-2">Backend & Databases</h3>
+                        <p class="text-sm text-surface-muted leading-relaxed mb-4">
+                            Robust server-side logic and database design. Scalable Node.js, Express, and Python architectures paired with PostgreSQL, MySQL, or MongoDB.
+                        </p>
+                        <ul class="text-xs font-mono space-y-2 text-charcoal-muted border-t border-surface-border pt-4">
+                            <li class="flex items-center gap-2"><i data-lucide="check" class="w-3.5 h-3.5 text-primary"></i> RESTful & GraphQL APIs</li>
+                            <li class="flex items-center gap-2"><i data-lucide="check" class="w-3.5 h-3.5 text-primary"></i> Database Modeling & ORM</li>
+                            <li class="flex items-center gap-2"><i data-lucide="check" class="w-3.5 h-3.5 text-primary"></i> Authentication (JWT / OAuth)</li>
+                        </ul>
+                    </div>
+
+                    <!-- SERVICE 3 -->
+                    <div class="p-6 rounded-2xl bg-surface-neutral border border-surface-border hover:border-primary/40 transition-all hover:shadow-card group">
+                        <div class="w-12 h-12 rounded-xl bg-white border border-surface-border flex items-center justify-center text-primary mb-6 group-hover:scale-110 transition-transform shadow-sm">
+                            <i data-lucide="cpu" class="w-6 h-6"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-charcoal mb-2">API Engineering</h3>
+                        <p class="text-sm text-surface-muted leading-relaxed mb-4">
+                            Custom API development, third-party integrations (Stripe, PayPal, CRM, ERP), webhook processors, and bulletproof microservice connections.
+                        </p>
+                        <ul class="text-xs font-mono space-y-2 text-charcoal-muted border-t border-surface-border pt-4">
+                            <li class="flex items-center gap-2"><i data-lucide="check" class="w-3.5 h-3.5 text-primary"></i> Payment Gateways & Billing</li>
+                            <li class="flex items-center gap-2"><i data-lucide="check" class="w-3.5 h-3.5 text-primary"></i> Webhook Event Architecture</li>
+                            <li class="flex items-center gap-2"><i data-lucide="check" class="w-3.5 h-3.5 text-primary"></i> OpenAPI / Swagger Docs</li>
+                        </ul>
+                    </div>
+
+                    <!-- SERVICE 4 -->
+                    <div class="p-6 rounded-2xl bg-surface-neutral border border-surface-border hover:border-primary/40 transition-all hover:shadow-card group">
+                        <div class="w-12 h-12 rounded-xl bg-white border border-surface-border flex items-center justify-center text-primary mb-6 group-hover:scale-110 transition-transform shadow-sm">
+                            <i data-lucide="bot" class="w-6 h-6"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-charcoal mb-2">AI & Automation</h3>
+                        <p class="text-sm text-surface-muted leading-relaxed mb-4">
+                            Smart web scrapers, automated workflows, LLM API integration, and RAG pipelines that eliminate tedious manual operations for businesses.
+                        </p>
+                        <ul class="text-xs font-mono space-y-2 text-charcoal-muted border-t border-surface-border pt-4">
+                            <li class="flex items-center gap-2"><i data-lucide="check" class="w-3.5 h-3.5 text-primary"></i> OpenAI / Claude LLM Pipelines</li>
+                            <li class="flex items-center gap-2"><i data-lucide="check" class="w-3.5 h-3.5 text-primary"></i> Web Scraping & Data Extractors</li>
+                            <li class="flex items-center gap-2"><i data-lucide="check" class="w-3.5 h-3.5 text-primary"></i> Automated Task Schedulers</li>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== PROCESS SECTION ==================== -->
+        <section id="process" class="py-20 bg-surface-neutral border-b border-surface-border">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                
+                <div class="text-center max-w-3xl mx-auto mb-16 space-y-4">
+                    <span class="text-xs font-mono font-bold uppercase tracking-widest text-primary bg-primary-light px-3 py-1 rounded-full">Methodology</span>
+                    <h2 class="text-3xl sm:text-4xl font-extrabold text-charcoal tracking-tight">
+                        Our 4-Step Engineering Process
+                    </h2>
+                    <p class="text-surface-muted text-base sm:text-lg">
+                        A structured, transparent workflow ending in production-grade software with zero surprises.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                    
+                    <div class="bg-white p-6 rounded-2xl border border-surface-border relative shadow-sm">
+                        <div class="text-4xl font-extrabold text-primary/20 font-mono mb-4">01</div>
+                        <h3 class="text-lg font-bold text-charcoal mb-2">Discovery & Scope</h3>
+                        <p class="text-xs text-surface-muted leading-relaxed">
+                            We analyze your requirements, plan user flows, select the ideal tech stack, and sign off on a fixed scope.
+                        </p>
+                        <div class="mt-4 text-[11px] font-mono text-primary font-medium">Deliverable: Signed Specs & Wireframes</div>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-2xl border border-surface-border relative shadow-sm">
+                        <div class="text-4xl font-extrabold text-primary/20 font-mono mb-4">02</div>
+                        <h3 class="text-lg font-bold text-charcoal mb-2">Architecture & Design</h3>
+                        <p class="text-xs text-surface-muted leading-relaxed">
+                            Database schemas, UI/UX prototype components, and API specs are drafted for your explicit sign-off.
+                        </p>
+                        <div class="mt-4 text-[11px] font-mono text-primary font-medium">Deliverable: Clickable UI & DB Models</div>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-2xl border border-surface-border relative shadow-sm">
+                        <div class="text-4xl font-extrabold text-primary/20 font-mono mb-4">03</div>
+                        <h3 class="text-lg font-bold text-charcoal mb-2">Sprint Development</h3>
+                        <p class="text-xs text-surface-muted leading-relaxed">
+                            Weekly sprints with live staging preview links, code commits, and Friday progress notes.
+                        </p>
+                        <div class="mt-4 text-[11px] font-mono text-primary font-medium">Deliverable: Live Staging Link & Demos</div>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-2xl border border-surface-border relative shadow-sm">
+                        <div class="text-4xl font-extrabold text-primary/20 font-mono mb-4">04</div>
+                        <h3 class="text-lg font-bold text-charcoal mb-2">Launch & Support</h3>
+                        <p class="text-xs text-surface-muted leading-relaxed">
+                            Deployment to your production servers, full IP code handover, plus 30 days of included bug-fix warranty.
+                        </p>
+                        <div class="mt-4 text-[11px] font-mono text-primary font-medium">Deliverable: Live Product & IP Source Code</div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== PORTFOLIO / CASE STUDIES ==================== -->
+        <section id="work" class="py-20 bg-white border-b border-surface-border">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                
+                <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+                    <div>
+                        <span class="text-xs font-mono font-bold uppercase tracking-widest text-primary bg-primary-light px-3 py-1 rounded-full">Featured Work</span>
+                        <h2 class="text-3xl sm:text-4xl font-extrabold text-charcoal tracking-tight mt-3">
+                            Engineered for Real Impact
+                        </h2>
+                    </div>
+                    <p class="text-surface-muted text-sm sm:text-base max-w-md">
+                        A sample of software systems built with high performance, tight security, and clean code principles.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    
+                    <!-- CASE STUDY 1 -->
+                    <div class="bg-surface-neutral rounded-2xl border border-surface-border overflow-hidden hover:shadow-md transition-all">
+                        <div class="bg-charcoal p-6 text-white border-b border-neutral-800 flex justify-between items-start">
+                            <div>
+                                <span class="text-[11px] font-mono uppercase text-primary font-semibold">SaaS Product</span>
+                                <h3 class="text-2xl font-bold mt-1">SaaS Analytics & Billing Portal</h3>
+                            </div>
+                            <span class="px-3 py-1 bg-neutral-800 text-xs font-mono rounded-full border border-neutral-700">Full Stack</span>
+                        </div>
+                        <div class="p-6 space-y-4">
+                            <p class="text-sm text-surface-muted leading-relaxed">
+                                Built a complete SaaS customer portal featuring user tier subscriptions, automated Stripe billing webhooks, real-time analytics charts, and encrypted user data isolation.
+                            </p>
+                            <div class="flex flex-wrap gap-2 text-xs font-mono">
+                                <span class="bg-white border border-surface-border px-2.5 py-1 rounded-md text-charcoal">Next.js 14</span>
+                                <span class="bg-white border border-surface-border px-2.5 py-1 rounded-md text-charcoal">TypeScript</span>
+                                <span class="bg-white border border-surface-border px-2.5 py-1 rounded-md text-charcoal">Node.js</span>
+                                <span class="bg-white border border-surface-border px-2.5 py-1 rounded-md text-charcoal">Stripe API</span>
+                                <span class="bg-white border border-surface-border px-2.5 py-1 rounded-md text-charcoal">PostgreSQL</span>
+                            </div>
+                            <div class="pt-2 flex items-center justify-between text-xs font-semibold">
+                                <span class="text-emerald-600 font-mono">✓ Handled $50k+ test transactions</span>
+                                <button onclick="openContactModal('SaaS Case Study')" class="text-primary hover:underline flex items-center gap-1">Request Demo Details &rarr;</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- CASE STUDY 2 -->
+                    <div class="bg-surface-neutral rounded-2xl border border-surface-border overflow-hidden hover:shadow-md transition-all">
+                        <div class="bg-charcoal p-6 text-white border-b border-neutral-800 flex justify-between items-start">
+                            <div>
+                                <span class="text-[11px] font-mono uppercase text-primary font-semibold">Automation & AI</span>
+                                <h3 class="text-2xl font-bold mt-1">Autonomous Web Scraper Engine</h3>
+                            </div>
+                            <span class="px-3 py-1 bg-neutral-800 text-xs font-mono rounded-full border border-neutral-700">API & Python</span>
+                        </div>
+                        <div class="p-6 space-y-4">
+                            <p class="text-sm text-surface-muted leading-relaxed">
+                                Scalable scraper agent designed to extract dynamic JavaScript render data, bypass anti-bot challenges safely, and format clean structured JSON output into LLM context vectors.
+                            </p>
+                            <div class="flex flex-wrap gap-2 text-xs font-mono">
+                                <span class="bg-white border border-surface-border px-2.5 py-1 rounded-md text-charcoal">Python</span>
+                                <span class="bg-white border border-surface-border px-2.5 py-1 rounded-md text-charcoal">Playwright</span>
+                                <span class="bg-white border border-surface-border px-2.5 py-1 rounded-md text-charcoal">FastAPI</span>
+                                <span class="bg-white border border-surface-border px-2.5 py-1 rounded-md text-charcoal">OpenAI API</span>
+                                <span class="bg-white border border-surface-border px-2.5 py-1 rounded-md text-charcoal">Redis</span>
+                            </div>
+                            <div class="pt-2 flex items-center justify-between text-xs font-semibold">
+                                <span class="text-emerald-600 font-mono">✓ 100k+ Pages Processed Daily</span>
+                                <button onclick="openContactModal('Scraper Case Study')" class="text-primary hover:underline flex items-center gap-1">Request Architecture Specs &rarr;</button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== PRICING PACKAGES & CALCULATOR ==================== -->
+        <section id="pricing" class="py-20 bg-surface-neutral border-b border-surface-border">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                
+                <div class="text-center max-w-3xl mx-auto mb-16 space-y-4">
+                    <span class="text-xs font-mono font-bold uppercase tracking-widest text-primary bg-primary-light px-3 py-1 rounded-full">Transparent Investment</span>
+                    <h2 class="text-3xl sm:text-4xl font-extrabold text-charcoal tracking-tight">
+                        Fixed-Price Engagement Models
+                    </h2>
+                    <p class="text-surface-muted text-base sm:text-lg">
+                        Clear scope, fixed pricing agreed upfront, and dated milestones with no hidden fees.
+                    </p>
+                </div>
+
+                <!-- 3 CARDS -->
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    
+                    <!-- STARTER -->
+                    <div class="bg-white rounded-2xl p-8 border border-surface-border shadow-sm flex flex-col justify-between">
+                        <div class="space-y-6">
+                            <div>
+                                <span class="text-xs font-mono text-surface-muted uppercase tracking-wider font-semibold">Starter Tier</span>
+                                <h3 class="text-2xl font-extrabold text-charcoal mt-1">Landing & API Prototype</h3>
+                                <p class="text-xs text-surface-muted mt-2">Best for small automations, prototypes, or landing pages.</p>
+                            </div>
+                            <div class="flex items-baseline gap-1">
+                                <span class="text-4xl font-extrabold text-charcoal font-mono">$500</span>
+                                <span class="text-xs text-surface-muted">/ project start</span>
+                            </div>
+                            <ul class="space-y-3 text-xs text-charcoal border-t border-surface-border pt-6 font-medium">
+                                <li class="flex items-center gap-2"><i data-lucide="check-circle" class="w-4 h-4 text-emerald-500"></i> 1-2 Weeks Delivery</li>
+                                <li class="flex items-center gap-2"><i data-lucide="check-circle" class="w-4 h-4 text-emerald-500"></i> Up to 3 Core Views / Features</li>
+                                <li class="flex items-center gap-2"><i data-lucide="check-circle" class="w-4 h-4 text-emerald-500"></i> 1 Third-Party Integration</li>
+                                <li class="flex items-center gap-2"><i data-lucide="check-circle" class="w-4 h-4 text-emerald-500"></i> Mobile Responsive & Fast</li>
+                                <li class="flex items-center gap-2"><i data-lucide="check-circle" class="w-4 h-4 text-emerald-500"></i> 14 Days Bug-fix Support</li>
+                            </ul>
+                        </div>
+                        <button onclick="openContactModal('Starter Package')" class="mt-8 w-full py-3 px-4 rounded-xl border border-charcoal text-charcoal hover:bg-charcoal hover:text-white font-semibold text-sm transition-all text-center">
+                            Select Starter
+                        </button>
+                    </div>
+
+                    <!-- STANDARD (RECOMMENDED) -->
+                    <div class="bg-white rounded-2xl p-8 border-2 border-primary shadow-xl flex flex-col justify-between relative transform lg:-translate-y-2">
+                        <div class="absolute -top-3.5 left-1/2 -translate-x-1/2 bg-primary text-white text-[11px] font-bold uppercase tracking-wider px-3 py-1 rounded-full shadow-sm">
+                            Most Popular Choice
+                        </div>
+                        <div class="space-y-6">
+                            <div>
+                                <span class="text-xs font-mono text-primary uppercase tracking-wider font-semibold">Standard Tier</span>
+                                <h3 class="text-2xl font-extrabold text-charcoal mt-1">Full-Stack Web App & API</h3>
+                                <p class="text-xs text-surface-muted mt-2">Ideal for MVPs, SaaS platforms, and business applications.</p>
+                            </div>
+                            <div class="flex items-baseline gap-1">
+                                <span class="text-4xl font-extrabold text-charcoal font-mono">$3,000</span>
+                                <span class="text-xs text-surface-muted">/ standard scope</span>
+                            </div>
+                            <ul class="space-y-3 text-xs text-charcoal border-t border-surface-border pt-6 font-medium">
+                                <li class="flex items-center gap-2"><i data-lucide="check-circle" class="w-4 h-4 text-primary"></i> 4-6 Weeks Delivery</li>
+                                <li class="flex items-center gap-2"><i data-lucide="check-circle" class="w-4 h-4 text-primary"></i> Up to 10 Full Features / Views</li>
+                                <li class="flex items-center gap-2"><i data-lucide="check-circle" class="w-4 h-4 text-primary"></i> Payment & Authentication Engine</li>
+                                <li class="flex items-center gap-2"><i data-lucide="check-circle" class="w-4 h-4 text-primary"></i> Custom Database Schema</li>
+                                <li class="flex items-center gap-2"><i data-lucide="check-circle" class="w-4 h-4 text-primary"></i> 30 Days Included Support</li>
+                            </ul>
+                        </div>
+                        <button onclick="openContactModal('Standard Package')" class="mt-8 w-full py-3 px-4 rounded-xl bg-primary hover:bg-primary-hover text-white font-semibold text-sm transition-all shadow-md hover:shadow-glow text-center">
+                            Select Standard Plan
+                        </button>
+                    </div>
+
+                    <!-- PREMIUM -->
+                    <div class="bg-white rounded-2xl p-8 border border-surface-border shadow-sm flex flex-col justify-between">
+                        <div class="space-y-6">
+                            <div>
+                                <span class="text-xs font-mono text-surface-muted uppercase tracking-wider font-semibold">Enterprise Tier</span>
+                                <h3 class="text-2xl font-extrabold text-charcoal mt-1">Custom Architecture</h3>
+                                <p class="text-xs text-surface-muted mt-2">For high-throughput systems, AI agents & complex platforms.</p>
+                            </div>
+                            <div class="flex items-baseline gap-1">
+                                <span class="text-4xl font-extrabold text-charcoal font-mono">$10,000+</span>
+                                <span class="text-xs text-surface-muted">/ enterprise</span>
+                            </div>
+                            <ul class="space-y-3 text-xs text-charcoal border-t border-surface-border pt-6 font-medium">
+                                <li class="flex items-center gap-2"><i data-lucide="check-circle" class="w-4 h-4 text-emerald-500"></i> 8-12 Weeks Delivery</li>
+                                <li class="flex items-center gap-2"><i data-lucide="check-circle" class="w-4 h-4 text-emerald-500"></i> Unlimited Scope in Planned Phases</li>
+                                <li class="flex items-center gap-2"><i data-lucide="check-circle" class="w-4 h-4 text-emerald-500"></i> Advanced AI & Microservices Stack</li>
+                                <li class="flex items-center gap-2"><i data-lucide="check-circle" class="w-4 h-4 text-emerald-500"></i> Dedicated CI/CD & Deployment</li>
+                                <li class="flex items-center gap-2"><i data-lucide="check-circle" class="w-4 h-4 text-emerald-500"></i> 60 Days Support & SLA</li>
+                            </ul>
+                        </div>
+                        <button onclick="openContactModal('Enterprise Package')" class="mt-8 w-full py-3 px-4 rounded-xl border border-charcoal text-charcoal hover:bg-charcoal hover:text-white font-semibold text-sm transition-all text-center">
+                            Select Enterprise
+                        </button>
+                    </div>
+
+                </div>
+
+                <!-- INTERACTIVE SCOPE / COST CALCULATOR WIDGET -->
+                <div id="quote-calculator" class="mt-20 max-w-3xl mx-auto bg-white rounded-2xl border border-surface-border p-8 shadow-card">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="p-2 rounded-lg bg-primary-light text-primary">
+                            <i data-lucide="calculator" class="w-5 h-5"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold text-charcoal">Interactive Scope & Cost Estimator</h3>
+                            <p class="text-xs text-surface-muted">Customize project requirements to calculate an instant estimated timeline & budget range.</p>
+                        </div>
+                    </div>
+
+                    <div class="space-y-6">
+                        <!-- FEATURE CHECKBOXES -->
+                        <div>
+                            <label class="block text-xs font-mono font-bold text-charcoal uppercase tracking-wider mb-3">Select Scope Deliverables:</label>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+                                <label class="flex items-center gap-3 p-3 rounded-xl border border-surface-border hover:bg-surface-neutral cursor-pointer transition-colors">
+                                    <input type="checkbox" onchange="calculateEstimate()" value="800" class="calc-checkbox rounded text-primary focus:ring-primary w-4 h-4">
+                                    <span>Frontend Next.js UI (+$800)</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 rounded-xl border border-surface-border hover:bg-surface-neutral cursor-pointer transition-colors">
+                                    <input type="checkbox" onchange="calculateEstimate()" value="1200" class="calc-checkbox rounded text-primary focus:ring-primary w-4 h-4">
+                                    <span>Backend API & DB (+$1,200)</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 rounded-xl border border-surface-border hover:bg-surface-neutral cursor-pointer transition-colors">
+                                    <input type="checkbox" onchange="calculateEstimate()" value="500" class="calc-checkbox rounded text-primary focus:ring-primary w-4 h-4">
+                                    <span>Stripe / Payment Integration (+$500)</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 rounded-xl border border-surface-border hover:bg-surface-neutral cursor-pointer transition-colors">
+                                    <input type="checkbox" onchange="calculateEstimate()" value="900" class="calc-checkbox rounded text-primary focus:ring-primary w-4 h-4">
+                                    <span>AI Agent / LLM Integration (+$900)</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- TIMELINE SLIDER -->
+                        <div>
+                            <div class="flex justify-between text-xs font-mono mb-2">
+                                <span class="font-bold text-charcoal">Target Timeline Speed:</span>
+                                <span id="speed-label" class="text-primary font-bold">Standard Pace (4 Weeks)</span>
+                            </div>
+                            <input type="range" id="speed-slider" min="1" max="3" value="2" oninput="calculateEstimate()" class="w-full accent-primary cursor-pointer">
+                            <div class="flex justify-between text-[10px] text-surface-muted font-mono mt-1">
+                                <span>Relaxed</span>
+                                <span>Standard</span>
+                                <span>Express Sprint</span>
+                            </div>
+                        </div>
+
+                        <!-- ESTIMATED TOTAL BOX -->
+                        <div class="p-4 bg-surface-neutral rounded-xl border border-surface-border flex items-center justify-between flex-wrap gap-4">
+                            <div>
+                                <div class="text-[11px] font-mono uppercase text-surface-muted">Estimated Investment Range</div>
+                                <div id="calc-total" class="text-3xl font-extrabold text-charcoal font-mono mt-0.5">$2,000 - $2,500</div>
+                            </div>
+                            <button onclick="openModalWithEstimate()" class="bg-primary hover:bg-primary-hover text-white text-xs font-semibold px-5 py-2.5 rounded-xl transition-all shadow-sm">
+                                Lock In Estimate &rarr;
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ==================== FOUNDER & CREDENTIALS ==================== -->
+        <section class="py-20 bg-white border-b border-surface-border">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                
+                <div class="bg-charcoal rounded-3xl p-8 sm:p-12 text-white relative overflow-hidden shadow-2xl">
+                    <div class="absolute -right-20 -bottom-20 w-80 h-80 bg-primary/20 rounded-full blur-3xl pointer-events-none"></div>
+                    
+                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center relative z-10">
+                        
+                        <div class="lg:col-span-8 space-y-6">
+                            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-neutral-800 text-xs font-mono text-primary border border-neutral-700">
+                                <span>Founder Engineering Profile</span>
+                            </div>
+                            <h2 class="text-3xl sm:text-4xl font-extrabold tracking-tight">
+                                Built & Backed by Abdur Rehman
+                            </h2>
+                            <p class="text-gray-300 text-sm sm:text-base leading-relaxed">
+                                As a Software Engineering student with a track record across three competitive engineering roles — <strong class="text-white">Frontend Developer</strong>, <strong class="text-white">Full Stack Developer</strong>, and <strong class="text-white">Associate Software Engineer</strong> — I created Rerose to bring agency-grade engineering rigor to fast-moving clients.
+                            </p>
+
+                            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-4 border-t border-neutral-800 font-mono text-xs">
+                                <div class="p-3 bg-neutral-900/80 rounded-xl border border-neutral-800">
+                                    <div class="text-primary font-bold">1st Role</div>
+                                    <div class="text-gray-300 mt-1">Frontend Developer</div>
+                                </div>
+                                <div class="p-3 bg-neutral-900/80 rounded-xl border border-neutral-800">
+                                    <div class="text-primary font-bold">2nd Role</div>
+                                    <div class="text-gray-300 mt-1">Full Stack Engineer</div>
+                                </div>
+                                <div class="p-3 bg-neutral-900/80 rounded-xl border border-neutral-800">
+                                    <div class="text-primary font-bold">3rd Role</div>
+                                    <div class="text-gray-300 mt-1">Associate Software Eng.</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="lg:col-span-4 bg-neutral-900 p-6 rounded-2xl border border-neutral-800 space-y-4">
+                            <h3 class="text-base font-bold text-white border-b border-neutral-800 pb-3">Direct Contact Card</h3>
+                            
+                            <div class="space-y-3 text-xs font-mono">
+                                <div class="flex items-center gap-3 text-gray-300">
+                                    <i data-lucide="mail" class="w-4 h-4 text-primary"></i>
+                                    <a href="mailto:iabdurrehman2.0@gmail.com" class="hover:text-white transition-colors">iabdurrehman2.0@gmail.com</a>
+                                </div>
+                                <div class="flex items-center gap-3 text-gray-300">
+                                    <i data-lucide="phone" class="w-4 h-4 text-primary"></i>
+                                    <a href="tel:03195812209" class="hover:text-white transition-colors">03195812209</a>
+                                </div>
+                                <div class="flex items-center gap-3 text-gray-300">
+                                    <i data-lucide="clock" class="w-4 h-4 text-primary"></i>
+                                    <span>Mon - Sat (&lt; 24h reply)</span>
+                                </div>
+                            </div>
+
+                            <button onclick="openContactModal('Founder Direct Connect')" class="w-full mt-4 py-2.5 px-4 bg-primary hover:bg-primary-hover text-white text-xs font-semibold rounded-xl transition-all shadow-sm">
+                                Contact Founder Directly
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ==================== FAQ ACCORDION ==================== -->
+        <section id="faq" class="py-20 bg-surface-neutral border-b border-surface-border">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+                
+                <div class="text-center mb-16 space-y-4">
+                    <span class="text-xs font-mono font-bold uppercase tracking-widest text-primary bg-primary-light px-3 py-1 rounded-full">Clear Answers</span>
+                    <h2 class="text-3xl sm:text-4xl font-extrabold text-charcoal tracking-tight">
+                        Frequently Asked Questions
+                    </h2>
+                </div>
+
+                <div class="space-y-4">
+                    
+                    <!-- FAQ 1 -->
+                    <div class="bg-white rounded-2xl border border-surface-border overflow-hidden">
+                        <button onclick="toggleFaq(1)" class="w-full p-6 text-left font-bold text-base text-charcoal flex justify-between items-center gap-4 hover:bg-surface-neutral/50 transition-colors">
+                            <span>Who owns the IP and source code after launch?</span>
+                            <i id="faq-icon-1" data-lucide="chevron-down" class="w-5 h-5 text-surface-muted transition-transform"></i>
+                        </button>
+                        <div id="faq-ans-1" class="hidden px-6 pb-6 text-sm text-surface-muted leading-relaxed border-t border-surface-border pt-4">
+                            You own 100% of all custom source code, designs, and architectural deliverables upon final milestone payment. We deliver code cleanly documented in your GitHub/GitLab repository.
+                        </div>
+                    </div>
+
+                    <!-- FAQ 2 -->
+                    <div class="bg-white rounded-2xl border border-surface-border overflow-hidden">
+                        <button onclick="toggleFaq(2)" class="w-full p-6 text-left font-bold text-base text-charcoal flex justify-between items-center gap-4 hover:bg-surface-neutral/50 transition-colors">
+                            <span>How do you handle scope changes mid-project?</span>
+                            <i id="faq-icon-2" data-lucide="chevron-down" class="w-5 h-5 text-surface-muted transition-transform"></i>
+                        </button>
+                        <div id="faq-ans-2" class="hidden px-6 pb-6 text-sm text-surface-muted leading-relaxed border-t border-surface-border pt-4">
+                            Small adjustments are handled flexibly in weekly sprints. Larger structural changes are quoted transparently as a separate written change request before any work begins so budget boundaries remain firm.
+                        </div>
+                    </div>
+
+                    <!-- FAQ 3 -->
+                    <div class="bg-white rounded-2xl border border-surface-border overflow-hidden">
+                        <button onclick="toggleFaq(3)" class="w-full p-6 text-left font-bold text-base text-charcoal flex justify-between items-center gap-4 hover:bg-surface-neutral/50 transition-colors">
+                            <span>What support is provided after go-live?</span>
+                            <i id="faq-icon-3" data-lucide="chevron-down" class="w-5 h-5 text-surface-muted transition-transform"></i>
+                        </button>
+                        <div id="faq-ans-3" class="hidden px-6 pb-6 text-sm text-surface-muted leading-relaxed border-t border-surface-border pt-4">
+                            All projects include a complimentary 14 to 60 day bug-fix warranty period. Optional monthly maintenance retainers are available starting at $800/month for ongoing updates.
+                        </div>
+                    </div>
+
+                    <!-- FAQ 4 -->
+                    <div class="bg-white rounded-2xl border border-surface-border overflow-hidden">
+                        <button onclick="toggleFaq(4)" class="w-full p-6 text-left font-bold text-base text-charcoal flex justify-between items-center gap-4 hover:bg-surface-neutral/50 transition-colors">
+                            <span>What standard tech stack does Rerose deploy?</span>
+                            <i id="faq-icon-4" data-lucide="chevron-down" class="w-5 h-5 text-surface-muted transition-transform"></i>
+                        </button>
+                        <div id="faq-ans-4" class="hidden px-6 pb-6 text-sm text-surface-muted leading-relaxed border-t border-surface-border pt-4">
+                            Our primary production stack includes React, Next.js, TypeScript, Tailwind CSS on the frontend; Node.js, Express, Python, and PostgreSQL/MongoDB on the backend; deployed on AWS, Vercel, or Docker containers.
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ==================== FINAL CONVERSION CTA ==================== -->
+        <section class="py-20 bg-white">
+            <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-8">
+                <div class="w-12 h-12 bg-primary/10 rounded-2xl flex items-center justify-center mx-auto text-primary">
+                    <i data-lucide="rocket" class="w-6 h-6"></i>
+                </div>
+                <h2 class="text-3xl sm:text-5xl font-extrabold text-charcoal tracking-tight">
+                    Ready to Build Your Enterprise Platform?
+                </h2>
+                <p class="text-surface-muted text-lg max-w-2xl mx-auto">
+                    Let's discuss your software goals, architecture requirements, and timeline. Get a detailed fixed proposal within 24 hours.
+                </p>
+                <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+                    <button onclick="openContactModal('Bottom Final CTA')" class="w-full sm:w-auto bg-primary hover:bg-primary-hover text-white text-base font-semibold px-8 py-4 rounded-2xl shadow-lg hover:shadow-glow transition-all">
+                        Schedule Discovery Call &rarr;
+                    </button>
+                    <a href="mailto:iabdurrehman2.0@gmail.com" class="w-full sm:w-auto border border-surface-border hover:bg-surface-neutral text-charcoal text-base font-semibold px-8 py-4 rounded-2xl transition-all">
+                        Email Founder Directly
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- ==================== FOOTER ==================== -->
+    <footer class="bg-charcoal text-gray-300 pt-16 pb-12 border-t border-neutral-800 text-xs">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-5 gap-10 pb-12 border-b border-neutral-800">
+                
+                <!-- BRAND COL -->
+                <div class="md:col-span-2 space-y-4">
+                    <div class="flex items-center gap-3">
+                        <div class="w-7 h-7 bg-white rounded-lg p-1 flex flex-col justify-center gap-0.5">
+                            <span class="h-0.5 w-full bg-primary rounded-full"></span>
+                            <span class="h-0.5 w-3/4 bg-charcoal rounded-full"></span>
+                            <span class="h-0.5 w-1/2 bg-primary rounded-full"></span>
+                        </div>
+                        <span class="font-extrabold text-lg text-white tracking-tight">Rerose</span>
+                    </div>
+                    <p class="text-gray-400 leading-relaxed max-w-sm">
+                        High-performance software engineering agency specializing in full-stack web applications, resilient backend architectures, and enterprise APIs.
+                    </p>
+                    <div class="pt-2 text-gray-400 font-mono space-y-1">
+                        <div>Founder: Abdur Rehman</div>
+                        <div>Email: <a href="mailto:iabdurrehman2.0@gmail.com" class="text-primary hover:underline">iabdurrehman2.0@gmail.com</a></div>
+                        <div>Phone: <a href="tel:03195812209" class="text-primary hover:underline">03195812209</a></div>
+                    </div>
+                </div>
+
+                <!-- COL 2 -->
+                <div class="space-y-3">
+                    <h4 class="text-white font-bold uppercase tracking-wider text-[11px]">Services</h4>
+                    <ul class="space-y-2 text-gray-400 font-medium">
+                        <li><a href="#services" class="hover:text-white transition-colors">Frontend Development</a></li>
+                        <li><a href="#services" class="hover:text-white transition-colors">Backend Architecture</a></li>
+                        <li><a href="#services" class="hover:text-white transition-colors">API Engineering</a></li>
+                        <li><a href="#services" class="hover:text-white transition-colors">AI & Scraping Workflows</a></li>
+                    </ul>
+                </div>
+
+                <!-- COL 3 -->
+                <div class="space-y-3">
+                    <h4 class="text-white font-bold uppercase tracking-wider text-[11px]">Company</h4>
+                    <ul class="space-y-2 text-gray-400 font-medium">
+                        <li><a href="#process" class="hover:text-white transition-colors">Our Process</a></li>
+                        <li><a href="#work" class="hover:text-white transition-colors">Featured Work</a></li>
+                        <li><a href="#pricing" class="hover:text-white transition-colors">Pricing Models</a></li>
+                        <li><a href="#faq" class="hover:text-white transition-colors">FAQ</a></li>
+                    </ul>
+                </div>
+
+                <!-- COL 4 -->
+                <div class="space-y-3">
+                    <h4 class="text-white font-bold uppercase tracking-wider text-[11px]">Trust & Standards</h4>
+                    <div class="space-y-2 text-gray-400">
+                        <div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-neutral-800 text-emerald-400 font-mono text-[10px]">
+                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> 99.9% Uptime Target
+                        </div>
+                        <p class="text-[11px] text-gray-400">Strict IP Protection & NDA Available on Request</p>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-gray-400 font-mono text-[11px]">
+                <div>&copy; 2026 Rerose Engineering Agency. All rights reserved.</div>
+                <div class="flex gap-6">
+                    <a href="#" class="hover:text-white">Privacy Policy</a>
+                    <a href="#" class="hover:text-white">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ==================== MODAL DIALOG FOR STRATEGY CALL / INQUIRY ==================== -->
+    <div id="contact-modal" class="fixed inset-0 z-50 hidden bg-charcoal/80 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-lg w-full p-8 shadow-2xl relative border border-surface-border">
+            
+            <button onclick="closeContactModal()" class="absolute top-6 right-6 text-gray-400 hover:text-charcoal p-1">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+
+            <div class="mb-6 space-y-1">
+                <span class="text-xs font-mono text-primary font-bold uppercase" id="modal-tag">Book Strategy Call</span>
+                <h3 class="text-2xl font-extrabold text-charcoal">Start Your Project with Rerose</h3>
+                <p class="text-xs text-surface-muted">Direct communication with founder Abdur Rehman.</p>
+            </div>
+
+            <form onsubmit="handleFormSubmit(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-semibold text-charcoal mb-1">Your Full Name</label>
+                    <input type="text" required placeholder="e.g. Alex Smith" class="w-full px-4 py-2.5 rounded-xl border border-surface-border focus:border-primary focus:ring-1 focus:ring-primary text-xs outline-none">
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold text-charcoal mb-1">Email Address</label>
+                    <input type="email" required placeholder="alex@company.com" class="w-full px-4 py-2.5 rounded-xl border border-surface-border focus:border-primary focus:ring-1 focus:ring-primary text-xs outline-none">
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold text-charcoal mb-1">Project Overview & Goals</label>
+                    <textarea rows="3" id="modal-message" placeholder="Describe what you want to build (e.g., React frontend + API setup)..." class="w-full px-4 py-2.5 rounded-xl border border-surface-border focus:border-primary focus:ring-1 focus:ring-primary text-xs outline-none"></textarea>
+                </div>
+
+                <div class="pt-2">
+                    <button type="submit" class="w-full py-3 bg-primary hover:bg-primary-hover text-white text-xs font-semibold rounded-xl transition-all shadow-md">
+                        Submit Inquiry &rarr;
+                    </button>
+                </div>
+                
+                <p class="text-[10px] text-center text-surface-muted">
+                    Or email directly: <span class="font-mono text-charcoal">iabdurrehman2.0@gmail.com</span> | <span class="font-mono text-charcoal">03195812209</span>
+                </p>
+            </form>
+
+            <div id="form-success" class="hidden text-center py-6 space-y-3">
+                <div class="w-12 h-12 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto">
+                    <i data-lucide="check" class="w-6 h-6"></i>
+                </div>
+                <h4 class="text-lg font-bold text-charcoal">Inquiry Received!</h4>
+                <p class="text-xs text-surface-muted">Thank you. Founder Abdur Rehman will respond within 24 hours.</p>
+                <button onclick="closeContactModal()" class="mt-4 px-4 py-2 bg-charcoal text-white text-xs rounded-xl">Close</button>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- ==================== INTERACTIVE JAVASCRIPT LOGIC ==================== -->
+    <script>
+        // Initialize Lucide Icons
+        document.addEventListener('DOMContentLoaded', () => {
+            lucide.createIcons();
+            calculateEstimate();
+        });
+
+        // Interactive Tab Switching for Architecture Demo
+        function switchTab(tabName) {
+            // Hide all code blocks
+            document.querySelectorAll('.code-block').forEach(el => el.classList.add('hidden'));
+            // Remove active classes from all tab buttons
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('bg-primary', 'text-white', 'font-semibold');
+                btn.classList.add('text-gray-400');
+            });
+
+            // Show target code block
+            document.getElementById(`code-${tabName}`).classList.remove('hidden');
+            
+            // Highlight active button
+            const activeBtn = document.getElementById(`tab-${tabName}`);
+            activeBtn.classList.add('bg-primary', 'text-white', 'font-semibold');
+            activeBtn.classList.remove('text-gray-400');
+        }
+
+        // Interactive Scope & Cost Calculator Logic
+        function calculateEstimate() {
+            const checkboxes = document.querySelectorAll('.calc-checkbox');
+            let basePrice = 500;
+            
+            checkboxes.forEach(box => {
+                if(box.checked) {
+                    basePrice += parseInt(box.value);
+                }
+            });
+
+            const speedSlider = document.getElementById('speed-slider');
+            const speedLabel = document.getElementById('speed-label');
+            let speedMultiplier = 1;
+
+            if (speedSlider.value === "1") {
+                speedLabel.innerText = "Relaxed Pace (6 Weeks)";
+                speedMultiplier = 0.9;
+            } else if (speedSlider.value === "2") {
+                speedLabel.innerText = "Standard Pace (4 Weeks)";
+                speedMultiplier = 1.0;
+            } else {
+                speedLabel.innerText = "Express Sprint (2 Weeks)";
+                speedMultiplier = 1.25;
+            }
+
+            const totalLow = Math.round((basePrice * speedMultiplier));
+            const totalHigh = Math.round((totalLow * 1.25));
+
+            document.getElementById('calc-total').innerText = `$${totalLow.toLocaleString()} - $${totalHigh.toLocaleString()}`;
+        }
+
+        function openModalWithEstimate() {
+            const estimateText = document.getElementById('calc-total').innerText;
+            openContactModal(`Cost Calculator Quote (${estimateText})`);
+            document.getElementById('modal-message').value = `Hi Abdur Rehman, I calculated an estimated project quote of ${estimateText}. I would like to schedule a call to discuss this scope!`;
+        }
+
+        // Modal Controls
+        function openContactModal(contextTag = 'General Strategy') {
+            document.getElementById('modal-tag').innerText = contextTag;
+            document.getElementById('contact-modal').classList.remove('hidden');
+            document.getElementById('form-success').classList.add('hidden');
+            document.querySelector('#contact-modal form').classList.remove('hidden');
+        }
+
+        function closeContactModal() {
+            document.getElementById('contact-modal').classList.add('hidden');
+        }
+
+        function handleFormSubmit(e) {
+            e.preventDefault();
+            document.querySelector('#contact-modal form').classList.add('hidden');
+            document.getElementById('form-success').classList.remove('hidden');
+        }
+
+        // FAQ Accordion Toggle
+        function toggleFaq(id) {
+            const ans = document.getElementById(`faq-ans-${id}`);
+            const icon = document.getElementById(`faq-icon-${id}`);
+            
+            if (ans.classList.contains('hidden')) {
+                ans.classList.remove('hidden');
+                icon.style.transform = 'rotate(180deg)';
+            } else {
+                ans.classList.add('hidden');
+                icon.style.transform = 'rotate(0deg)';
+            }
+        }
+    </script>
+</body>
+</html>
